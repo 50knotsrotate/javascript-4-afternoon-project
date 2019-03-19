@@ -58,18 +58,27 @@ var Dave = new Employee("Dave", "Smith", "Blah@gmail", 24);
   Call your new class Manager
 */
 
-class Manager extends Employee {
+class Manager {
   constructor(first_name, last_name, email, age) {
-    super(Employee);
     this.first_name = first_name;
     this.last_name = last_name;
     this.email = email;
     this.age = age;
+    this.reports =[]
+  }
+
+  hire(employee) { 
+    this.reports.push(employee)
+  }
+
+  fire(index) { 
+    this.reports.splice(index,1)
+
   }
 }
 
 var manager = new Manager("Bill", "Shakes", "peasent@gmail.com", 55);
-console.log(manager);
+
 
 ////////// PROBLEM 3 //////////
 
@@ -92,7 +101,38 @@ console.log(manager);
   Call your new class ProgressiveManager
 */
 
-//Code Here
+class ProgressiveManager { 
+  constructor(first_name, last_name, email, age, title = 'Not a manager', bonus = 0) {
+    this.first_name = first_name;
+    this.last_name = last_name;
+    this.email = email;
+    this.age = age;
+    this.title = title;
+    this.bonus = bonus;
+    this.reports =[]
+  }
+  hire(employee) {
+    this.reports.push(employee)
+
+    if (!this.reports.length) {
+      this.title = 'Not a manager'
+    } else if (this.reports.length >= 1 && this.reports.length <= 3) {
+      this.title = 'Barely Manager'
+    } else if (this.reports.length >= 4 && this.reports.length <= 10) {
+      this.title = 'Mostly Manager'
+    } else if (this.reports.length >= 11 && this.reports.length <= 50) {
+      this.title = 'Manager'
+    } else if (this.reports.length >= 50 && this.reports.length <= 100) {
+      this.title = 'Manager Plus'
+    } else { 
+      this.title = 'Bestest Manager'
+    }
+  }
+  fire(index) { 
+    this.reports.splice(index, 1)
+    this.bonus += 100
+  }
+}
 
 ////////// PROBLEM 4 - Black Diamond //////////
 
@@ -117,4 +157,27 @@ console.log(manager);
         - The anonymous function should decrease wear_and_tear_count by 10, and set needs_reboot to false
 */
 
-//Code Here
+class Machine { 
+  constructor(widgets_made_count, wear_and_tear_count, needs_reboot) {
+    this.widgets_made_count = 0;
+    this.wear_and_tear_count = 0
+    this.needs_reboot = false
+  }
+  
+  makeWidgets(number) { 
+    this.widgets_made_count += number
+    this.wear_and_tear_count = this.widgets_made_count/50
+  }
+
+  fixMachine() { 
+    this.needs_reboot = true;
+    this.reboot()
+  }
+
+  reboot() { 
+    return () => { 
+      this.wear_and_tear_count -= 10;
+      this.needs_reboot = false;
+    }  
+  }
+}
